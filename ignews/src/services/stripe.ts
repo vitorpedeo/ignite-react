@@ -1,3 +1,4 @@
+// Integração do Stripe com o BackEnd
 import Stripe from 'stripe';
 
 export const stripe = new Stripe(
