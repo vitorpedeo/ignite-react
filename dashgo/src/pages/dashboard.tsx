@@ -1,3 +1,4 @@
+import { ApexOptions } from 'apexcharts';
 import { Box, Flex, SimpleGrid, Text, theme } from '@chakra-ui/react';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
@@ -9,7 +10,7 @@ const Chart = dynamic(() => import('react-apexcharts'), {
   ssr: false,
 });
 
-const options = {
+const options: ApexOptions = {
   chart: {
     toolbar: {
       show: false,
@@ -90,7 +91,11 @@ export default function Dashboard() {
             alignItems="flex-start"
           >
             <Box
-              padding="8"
+              padding={{
+                base: '6',
+                sm: '6',
+                md: '8',
+              }}
               paddingBottom="4"
               borderRadius={8}
               background="gray.800"
@@ -106,7 +111,11 @@ export default function Dashboard() {
               />
             </Box>
             <Box
-              padding="8"
+              padding={{
+                base: '6',
+                sm: '6',
+                md: '8',
+              }}
               paddingBottom="4"
               borderRadius={8}
               background="gray.800"

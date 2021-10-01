@@ -9,6 +9,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import Head from 'next/head';
+import Link from 'next/link';
 
 import { Header } from '../../components/Header';
 import { Input } from '../../components/Form/Input';
@@ -32,7 +33,16 @@ export default function CreateUser() {
         >
           <Sidebar />
 
-          <Box padding="8" borderRadius={8} background="gray.800" flex="1">
+          <Box
+            padding={{
+              base: '6',
+              sm: '6',
+              md: '8',
+            }}
+            borderRadius={8}
+            background="gray.800"
+            flex="1"
+          >
             <Heading size="lg" fontWeight="bold">
               Cadastrar usuário
             </Heading>
@@ -40,24 +50,44 @@ export default function CreateUser() {
             <Divider marginY="6" borderColor="gray.700" />
 
             <VStack spacing="8">
-              <SimpleGrid spacing="8" width="100%" minChildWidth="240px">
+              <SimpleGrid
+                spacing={{
+                  base: '6',
+                  sm: '6',
+                  md: '8',
+                }}
+                width="100%"
+                minChildWidth="240px"
+              >
                 <Input name="name" label="Nome Completo" />
-                <Input name="email" label="E-mail" type="email" />
+                <Input name="email" type="email" label="E-mail" />
               </SimpleGrid>
 
-              <SimpleGrid spacing="8" width="100%" minChildWidth="240px">
-                <Input name="password" label="Senha" type="password" />
+              <SimpleGrid
+                spacing={{
+                  base: '6',
+                  sm: '6',
+                  md: '8',
+                }}
+                width="100%"
+                minChildWidth="240px"
+              >
+                <Input name="password" type="password" label="Senha" />
                 <Input
-                  name="password"
-                  label="Confirmar senha"
+                  name="confirm-password"
                   type="password"
+                  label="Confirmar senha"
                 />
               </SimpleGrid>
             </VStack>
 
             <Flex marginTop="8" justifyContent="flex-end">
               <HStack spacing="4">
-                <Button colorScheme="whiteAlpha">Cancelar</Button>
+                <Link href="/users" passHref>
+                  <Button as="a" colorScheme="whiteAlpha">
+                    Cancelar
+                  </Button>
+                </Link>
                 <Button colorScheme="pink">Salvar</Button>
               </HStack>
             </Flex>
