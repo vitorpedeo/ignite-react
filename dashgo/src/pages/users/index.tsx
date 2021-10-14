@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Box,
   Button,
@@ -5,6 +6,7 @@ import {
   Flex,
   Heading,
   Icon,
+  Link as ChakraLink,
   Spinner,
   Table,
   Tbody,
@@ -18,39 +20,38 @@ import {
 import Head from 'next/head';
 import Link from 'next/link';
 import { RiAddLine, RiPencilLine } from 'react-icons/ri';
-import { useQuery } from 'react-query';
+
+import { useUsers } from '../../services/hooks/useUsers';
+import { api } from '../../services/api';
+import { queryClient } from '../../services/queryClient';
 
 import { Header } from '../../components/Header';
 import { Pagination } from '../../components/Pagination';
 import { Sidebar } from '../../components/Sidebar';
 
 export default function UserList() {
-  const { data, isLoading, error } = useQuery(
-    'users',
-    async () => {
-      const response = await fetch('http://localhost:3000/api/users');
-      const responseData = await response.json();
+  const [page, setPage] = useState(1);
 
-      const users = responseData.users.map(user => ({
-        ...user,
-        createdAt: new Date(user.createdAt).toLocaleDateString('pt-BR', {
-          day: '2-digit',
-          month: 'long',
-          year: 'numeric',
-        }),
-      }));
-
-      return users;
-    },
-    {
-      staleTime: 1000 * 5, // 5s
-    },
-  );
+  const { data, isLoading, isFetching, error } = useUsers(page);
 
   const isWideVersion = useBreakpointValue({
     base: false,
     lg: true,
   });
+
+  async function handlePrefetchUser(userId: string) {
+    await queryClient.prefetchQuery(
+      ['user', userId],
+      async () => {
+        const response = await api.get(`users/${userId}`);
+
+        return response.data;
+      },
+      {
+        staleTime: 1000 * 60 * 10, // 10mins
+      },
+    );
+  }
 
   return (
     <>
@@ -77,6 +78,9 @@ export default function UserList() {
             >
               <Heading size="lg" fontWeight="bold">
                 Usuários
+                {!isLoading && isFetching && (
+                  <Spinner size="sm" marginLeft="4" color="gray.500" />
+                )}
               </Heading>
 
               <Link href="/users/create" passHref>
@@ -131,7 +135,7 @@ export default function UserList() {
                     </Tr>
                   </Thead>
                   <Tbody>
-                    {data.map(user => (
+                    {data.users.map(user => (
                       <Tr key={user.id}>
                         <Td
                           paddingX={{
@@ -145,13 +149,18 @@ export default function UserList() {
                         </Td>
                         <Td>
                           <Box>
-                            <Text fontWeight="bold">{user.name}</Text>
+                            <ChakraLink
+                              color="purple.400"
+                              onMouseEnter={() => handlePrefetchUser(user.id)}
+                            >
+                              <Text fontWeight="bold">{user.name}</Text>
+                            </ChakraLink>
                             <Text fontSize="small" color="gray.300">
                               {user.email}
                             </Text>
                           </Box>
                         </Td>
-                        {isWideVersion && <Td>{user.createdAt}</Td>}
+                        {isWideVersion && <Td>{user.created_at}</Td>}
                         {isWideVersion && (
                           <Td>
                             <Button
@@ -172,7 +181,11 @@ export default function UserList() {
                   </Tbody>
                 </Table>
 
-                <Pagination />
+                <Pagination
+                  totalCountOfRegisters={data.totalCount}
+                  currentPage={page}
+                  onPageChange={setPage}
+                />
               </>
             )}
           </Box>
