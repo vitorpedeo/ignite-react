@@ -1,6 +1,7 @@
 import { FormEvent, useState } from 'react';
 
 import { useAuth } from '../contexts/AuthContext';
+import { withSSRGuest } from '../utils/withSSRGuest';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -36,3 +37,9 @@ export default function Login() {
     </form>
   );
 }
+
+export const getServerSideProps = withSSRGuest(async ctx => {
+  return {
+    props: {},
+  };
+});

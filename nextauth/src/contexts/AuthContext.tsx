@@ -9,7 +9,7 @@ import Router from 'next/router';
 import { destroyCookie, parseCookies, setCookie } from 'nookies';
 
 import { HeadersDefaults } from 'axios';
-import { api } from '../services/api';
+import { api } from '../services/apiClient';
 
 type SigInCredentials = {
   email: string;
