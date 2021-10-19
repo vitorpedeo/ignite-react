@@ -21,7 +21,7 @@ Os projetos criados durante esse capítulo estão listados abaixo.
 
 - [dashgo](https://github.com/vitorpedeo/ignite-react/tree/chapter4/dashgo): dashboard
 simples criada utilizando ChakraUI e React Query;
--[nextauth](https://github.com/vitorpedeo/ignite-react/tree/chapter4/nextauth): aplicação
+- [nextauth](https://github.com/vitorpedeo/ignite-react/tree/chapter4/nextauth): aplicação
 feita com a finalidade de aplicar os conceitos de autenticação JWT no Next.js.
 
 ## :new: Novos conhecimentos
