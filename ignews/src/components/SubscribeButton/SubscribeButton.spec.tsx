@@ -1,12 +1,17 @@
 import { signIn, useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
-import { fireEvent, screen, render } from '@testing-library/react';
+import { fireEvent, screen, render, waitFor } from '@testing-library/react';
 import { mocked } from 'ts-jest/utils';
+
+import { api } from '../../services/api';
+import { getStripeJs } from '../../services/stripe-js';
 
 import { SubscribeButton } from '.';
 
 jest.mock('next-auth/client');
 jest.mock('next/router');
+jest.mock('../../services/api');
+jest.mock('../../services/stripe-js');
 
 describe('SubscribeButton component', () => {
   it('should renders correctly', () => {

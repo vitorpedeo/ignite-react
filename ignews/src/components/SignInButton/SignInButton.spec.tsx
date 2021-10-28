@@ -1,5 +1,5 @@
-import { useSession } from 'next-auth/client';
-import { screen, render } from '@testing-library/react';
+import { useSession, signIn, signOut } from 'next-auth/client';
+import { fireEvent, screen, render } from '@testing-library/react';
 import { mocked } from 'ts-jest/utils';
 
 import { SignInButton } from '.';
@@ -32,5 +32,42 @@ describe('SignInButton component', () => {
     render(<SignInButton />);
 
     expect(screen.getByText('John Doe')).toBeInTheDocument();
+  });
+
+  it('should call signIn method when user is not logged in', () => {
+    const useSessionMocked = mocked(useSession);
+    useSessionMocked.mockReturnValueOnce([null, false]);
+
+    const signInMocked = mocked(signIn);
+
+    render(<SignInButton />);
+
+    const signInButton = screen.getByRole('button', { name: /sign in with github/i });
+    fireEvent.click(signInButton);
+
+    expect(signInMocked).toHaveBeenCalledWith('github');
+  });
+
+  it('should call signOut method when user is logged in', () => {
+    const useSessionMocked = mocked(useSession);
+    useSessionMocked.mockReturnValueOnce([
+      {
+        user: {
+          name: 'John Doe',
+          email: 'john.doe@example.com',
+        },
+        expires: 'fake-expires',
+      }, 
+      false
+    ]);
+
+    const signOutMocked = mocked(signOut);
+
+    render(<SignInButton />);
+
+    const signOutButton = screen.getByRole('button', { name: /john doe/i });
+    fireEvent.click(signOutButton);
+
+    expect(signOutMocked).toHaveBeenCalled();
   });
 });

@@ -10,4 +10,13 @@ module.exports = {
     '\\.(scss|sass|css)': 'identity-obj-proxy',
   },
   testEnvironment: 'jsdom',
+  collectCoverage: true,
+  collectCoverageFrom: [
+    'src/**/*.tsx',
+    '!src/**/*.spec.tsx',
+    '!src/**/_app.tsx',
+    '!src/**/_document.tsx',
+    '!**/node_modules/**',
+  ],
+  coverageReporters: ['lcov', 'json'],
 };
