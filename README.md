@@ -19,13 +19,18 @@ Essa branch contém todo o resultado produzido por mim durante o Capítulo 5.
 
 Os projetos criados durante esse capítulo estão listados abaixo.
 
-
+- [perfreact](https://github.com/vitorpedeo/ignite-react/tree/chapter5/perfreact): aplicação
+simples onde foram testadas técnicas de otimização presentes no React;
+- [ignews](https://github.com/vitorpedeo/ignite-react/tree/chapter5/ignews): implementação
+de testes na aplicação ignews realizada no capítulo 3.
 
 ## :new: Novos conhecimentos
 
 Os principais conhecimentos que adquiri durante esse capítulo foram:
 
-
+- Conceitos mais complexos relacionados a renderização no React;
+- Técnicas de otimização;
+- Como realizar testes no React utilizando [Jest](https://jestjs.io/) e [Testing Library](https://testing-library.com/).
 
 ---
 
